@@ -1,0 +1,35 @@
+.paper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.preview {
+    margin-bottom: 25px;
+    font-size: 18px;
+
+    /* Para evitar copia-pega usuario
+    pointer-events: none;
+    user-select: none;
+    */
+}
+
+.url-select {
+    width: 150px;
+}
+
+.dir {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}  
+
+.backHome {
+    padding-left: 10px;
+    max-width: 20px;
+}
+h1 {
+    margin-left: 20px;
+}

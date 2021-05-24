@@ -1,0 +1,73 @@
+.paper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.preview {
+    max-width: 650px;
+    margin: 25px;
+
+    /* Para evitar copia-pega usuario
+    pointer-events: none;
+    user-select: none;
+    */
+}
+.field {
+    width: 100%;
+    max-width: 650px;
+}
+
+.url-select {
+    margin: 20px;
+    max-width: 150px;
+}
+
+.teclado button {
+    padding: 14px 0px;
+    margin: 2px 1px; 
+    border: 1px solid rgb(145, 145, 145);
+    box-shadow: 3px 7px 2px #888888;
+}
+.fila-2 {
+    padding-left: 20px;
+}
+.fila-3 {
+    padding-left: 40px;
+}
+
+.fila-4 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.fila-4 button {
+    width: 25px;
+    border-radius: 15px;
+    border: 2px solid rgb(179, 131, 29);
+    background-color: rgb(245, 213, 146);  
+}
+
+.spacer {
+    width: 25px;
+}
+
+.dedo-1 {
+height: 50px;
+}
+.dedo-2 {
+    height: 70px;
+}
+.dedo-3 {
+    height: 80px;
+}
+.dedo-4 {
+    height: 70px;
+}
+.dedo-5 {
+    height: 30px;
+}
