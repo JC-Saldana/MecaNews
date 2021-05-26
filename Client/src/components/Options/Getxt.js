@@ -1,4 +1,3 @@
-import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 
 function Getxt() {
@@ -24,24 +23,10 @@ function Getxt() {
         })();
     }
 
-
-
     const data = [
-        {
-            label: "El país",
-            value: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/deportes/portada"
-        },
         {
             label: "Xataca",
             value: "http://feeds.weblogssl.com/xataka2"
-        },
-        {
-            label: "ABC",
-            value: "https://www.abc.es/rss/feeds/abc_ultima.xml"
-        },
-        {
-            label: "Cointelegraph",
-            value: "https://es.cointelegraph.com/rss"
         },
         {
             label: "Genbeta",
@@ -49,12 +34,6 @@ function Getxt() {
         },
     ]
 
-    const data2 = [
-        "http://feeds.weblogssl.com/xataka2",
-        "http://feeds.weblogssl.com/genbeta"
-    ]
-
-    // handle onChange event en cada dropdown
     useEffect(() => {
         const random = Math.floor(Math.random() * data.length)
         getText(data[random].value)

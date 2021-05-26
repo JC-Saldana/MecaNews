@@ -1,32 +1,26 @@
-import { Button } from '@material-ui/core';
-import React, { useState } from 'react'
-import Select from 'react-select'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-function Compete({ setText, onRestart, index, setIndex }) {
+import { useEffect, useState } from 'react'
+import { Button } from '@material-ui/core';
+
+function Compete({ setText, index, setIndex }) {
 
     let Parser = require('rss-parser');
     let parser = new Parser();
-    const [arr, setArr] = useState("")
-    const [origen, setOrigen] = useState(null)
-    let array = [null]
+
+    const [arrTitle, setArrTitle] = useState("")
+    const [arrOrigen, setArrOrigen] = useState("")
+
+    let arrayTitle = [null]
 
     const getText = (u) => {
         (async () => {
             let feed = await parser.parseURL(u);
-            let num = 0
             feed.items.forEach(item => {
-                // console.log(item.title + ':' + item.link)
-                num++
-                //console.log("........." + num + "........." + item.title)
-                array.push(item.title)
-                setArr(array)
+                arrayTitle.push(item.title)
+                setArrTitle(arrayTitle)
             });
         })();
     }
-    
-    setText(arr[index])
 
     const data = [
         {
@@ -50,40 +44,35 @@ function Compete({ setText, onRestart, index, setIndex }) {
             value: "http://feeds.weblogssl.com/genbeta"
         },
     ]
- 
-  // handle onChange event en cada dropdown
-  const handleChange = e => {
-    getText(e.value)
-    setOrigen(e.value)
-  }
+
+    const fateIndex = () => {
+        const randomIndex = Math.floor(Math.random() * arrTitle.length)
+        setIndex(randomIndex)
+        console.log("Random index: ", randomIndex, arrTitle.length, arrTitle)
+    }
+
+    useEffect(() => {
+        
+        const randomOrigen = Math.floor(Math.random() * data.length)
+        getText(data[randomOrigen].value)
+        setArrOrigen(data[randomOrigen].label)
+
+        console.log("Random origen: ", randomOrigen, data)
+            
+    }, [])
+
+    setText(arrTitle[index])
 
     return (
-        <div className="main-section">
-            <div className="row-1">
-                <Select
-                    placeholder="Origen"
-                    className="url-select"
-                    value={data.find(obj => obj.value === origen)}
-                    options={data}
-                    onChange={handleChange}
-                />
 
-            </div>
-            <div className="row-2">
-                <Button onClick={() => { if (index > 1) { setIndex(index - 1) } }}>
-                    <ArrowBackIcon/>
-                </Button>
-                <Button onClick={onRestart}>Restart</Button>
-                <Button onClick={() => { if (index < arr.length - 1) { setIndex(index + 1) } }}>
-                    <ArrowForwardIcon/>
-                </Button>
-            </div>
-
-
-
-
+        <div className="footer-news">
+            <span>Origen: {arrOrigen} </span>
+            <Button onClick={() => { fateIndex() }}>
+                Get text
+            </Button>
         </div>
     )
+
 }
 
 export default Compete

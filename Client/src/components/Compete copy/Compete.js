@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Preview from './Preview';
 import { Link } from "react-router-dom"
 import Speed from './Speed';
-import { Button, Paper, TextField } from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import './practice.css'
+import { Button, Grid, Paper, setRef, TextField } from '@material-ui/core';
+import './styles.css'
 import Main from './Main';
+import { createPost, getPosts, updatePost } from '../../actions/posts';
 
-const Learn = () => {
-
+const Compete = () => {
+  const dispatch = useDispatch()
   const initialState = {
     text: "",
     userInput: '',
@@ -21,15 +23,15 @@ const Learn = () => {
   const [started, setStarted] = useState(false)
   const [intervalo, setIntervalo] = useState()
   const [text, setText] = useState()
-  const [news, setNews] = useState()
   const [index, setIndex] = useState(1)
-  const [link, setLink] = useState()
+  const user = JSON.parse(localStorage.getItem("profile"))
+  const userId = user?.result?.googleId || user?.result?._id
+  const [postData, setPostData] = useState({ label: "pj:", value: "pj:", userId: userId })
 
   /* Timer */
   let startTime
 
   const startTimer = () => {
-    console.log("Start")
     setSec(0)
     startTime = new Date()
     setIntervalo(setInterval(() => {
@@ -44,6 +46,12 @@ const Learn = () => {
     }
   })
 
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [postData])
+
+
+
 
   function getTimerTime() {
     return Math.floor((new Date() - startTime) / 1000)
@@ -56,14 +64,13 @@ const Learn = () => {
   /* -- Timer -- */
 
   const onRestart = () => {
-    console.log(state.finished)
     setState(initialState)
     setStarted(false)
     setSec(0)
-    console.log(state)
   }
 
   const onUserInputChange = (e) => {
+    console.log(postData)
     if (text) {
       const v = e.target.value;
       if (started === false) {
@@ -86,7 +93,12 @@ const Learn = () => {
     if (userInput === text) {
       clearInterval(state.interval)
       console.log("truly finished")
-      //subir sec
+      // subir resultados
+      //dispatch(uploadTime({time: sec}))
+
+
+      // - subir resultados
+      console.log("subido")
       setIndex(index + 1)
       onRestart()
     }
@@ -97,17 +109,33 @@ const Learn = () => {
     return userInput.replace(' ', '').split('').filter((s, i) => s === text[i]).length;
   }
 
+
+  const handleSubmit = (e) => {
+    console.log(postData)
+    e.preventDefault()
+    dispatch(createPost({ ...postData }))
+    /*if (currentId) {
+      console.log("update")
+      dispatch(updatePost(currentId, { ...postData }))
+    } else {
+      console.log("create")
+      dispatch(createPost({ ...postData, userId: "userId" }))
+    }*/
+
+  }
+
   return (
     <div>
 
+
       <div className="dir">
-        <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome"/></Button>
-        <h1>Practica</h1>
-        <Button component={Link} to="/Rss" variant="outlined">Añadir Rss</Button>
+        <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome" /></Button>
+        <h1>Compite</h1>
       </div>
 
       <Paper className="paper" elevation={3}>
-        <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} setNews={setNews} link={link} setLink={setLink} />
+        <h1>{sec}</h1>
+        <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} />
         <Preview text={text} userInput={state.userInput} />
         <TextField className="field" label="Let's Start!" variant="outlined"
           value={state.userInput}
@@ -117,13 +145,24 @@ const Learn = () => {
           ) : (
             "Elige antes un texto!"
           )}
+
           readOnly={state.finished}
-          news={news}
         />
+        {/*posts.map((post) => (
+          <Grid key={post._id} item xs={12} sm={6} md={6}>
+            {(userId === post?.userId || userId === post?.userId) && (
+              <Grid key={post._id} item xs={12} sm={6} md={6}>
+                <p>{post.value} </p>
+              </Grid>
+            )}
+          </Grid>
+            ))*/}
+        
       </Paper>
       <Speed sec={sec} symbols={state.symbols} />
+        
     </div>
   );
 }
 
-export default Learn;
+export default Compete;

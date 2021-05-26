@@ -69,11 +69,13 @@ function Main({ setText, onRestart }) {
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
                 <img src={teclado} />
                 <h1>¡Es muy sencillo!</h1>
-                <h2><p>Si hasta ahora has usado 2 dedos para escribir, <br />
-                    simplemente olvida tus hábitos y usa, sin prisa, <br />
-                    el dedo correcto para cada tecla. <br /></p>
+                <h2><p>Si usas 2 dedos para escribir, <br />
+                    olvida tus hábitos y cambia, sin prisa, <br />
+                    por el dedo correcto para cada tecla. <br /></p>
                     <p>Coloca los dedos índice (naranja y rosa) <br/>
                      en la f y j como punto de partida.</p>
+                     <p>Trata de no mirar el teclado... <br/>
+                     ¡tienes otro en la pantalla si lo necesitas!</p>
                 </h2>
             </Backdrop>
             <CardMedia

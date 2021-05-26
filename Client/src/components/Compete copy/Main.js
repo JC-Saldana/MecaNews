@@ -1,29 +1,19 @@
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Button } from '@material-ui/core';
 import React, { useState } from 'react'
 import Select from 'react-select'
-import { Link } from "react-router-dom"
-import './main.css'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useSelector } from 'react-redux';
+import Rss from './Rss';
 
-
-function Compete({ setText, onRestart, index, setIndex, link, setLink }) {
-
+function Compete({ setText, onRestart, index, setIndex }) {
     const posts = useSelector((state) => state.posts )
- 
     let Parser = require('rss-parser');
     let parser = new Parser();
-
     const [arr, setArr] = useState("")
-    const [arrLink, setArrLink] = useState("")
-
     const [origen, setOrigen] = useState(null)
-
     let array = [null]
-    let arrayLink = [null]
     const data2 = posts
-
     const getText = (u) => {
         (async () => {
             let feed = await parser.parseURL(u);
@@ -32,19 +22,13 @@ function Compete({ setText, onRestart, index, setIndex, link, setLink }) {
                 // console.log(item.title + ':' + item.link)
                 num++
                 //console.log("........." + num + "........." + item.title)
-
                 array.push(item.title)
-                arrayLink.push(item.link)
                 setArr(array)
-                setArrLink(arrayLink)
-                console.log(array)
             });
         })();
     }
-
-
+    
     setText(arr[index])
-    setLink(arrLink[index])
 
     const data = [
         {
@@ -68,18 +52,17 @@ function Compete({ setText, onRestart, index, setIndex, link, setLink }) {
             value: "http://feeds.weblogssl.com/genbeta"
         },
     ]
-
-    // handle onChange event en cada dropdown
-    const handleChange = e => {
-        onRestart()
-        setOrigen(e.value)
-        getText(e.value)
-    }
+ console.log("Main data: ", data)
+ console.log("Main data 2: ", data2, posts)
+  // handle onChange event en cada dropdown
+  const handleChange = e => {
+    getText(e.value)
+    setOrigen(e.value)
+  }
 
     return (
         <div className="main-section">
             <div className="row-1">
-                <Button href={link} target="_blank">ver noticia - </Button>
                 <Select
                     placeholder="Origen"
                     className="url-select"
@@ -98,6 +81,7 @@ function Compete({ setText, onRestart, index, setIndex, link, setLink }) {
                     <ArrowForwardIcon/>
                 </Button>
             </div>
+            <Rss/>
         </div>
     )
 }

@@ -9,6 +9,7 @@ import Auth from "./components/Auth/Auth"
 import Learn from "./components/Learn/Learn"
 import Practice from "./components/Practice/Practice"
 import Compete from "./components/Compete/Compete"
+import Rss from "./components/Compete/Rss"
 
 const App = () => {
     const TITLE = 'TypeNews'
@@ -25,6 +26,7 @@ const App = () => {
                     <Route path="/Learn" exact component={Learn} />
                     <Route path="/Practice" exact component={Practice} />
                     <Route path="/Compete" exact component={Compete} />
+                    <Route path="/Rss" exact component={Rss} />
                 </Switch>
             </Container>
         </BrowserRouter>

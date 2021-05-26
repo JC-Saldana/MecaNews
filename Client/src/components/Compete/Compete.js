@@ -4,10 +4,10 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Preview from './Preview';
 import { Link } from "react-router-dom"
 import Speed from './Speed';
-import { Button, Paper, TextField } from '@material-ui/core';
+import { Button, Grid, Paper, setRef, TextField } from '@material-ui/core';
 import './styles.css'
 import Main from './Main';
-import { uploadTime } from '../../actions/posts';
+import { createPost, getPosts  } from '../../actions/posts';
 
 const Compete = () => {
   const dispatch = useDispatch()
@@ -23,13 +23,15 @@ const Compete = () => {
   const [started, setStarted] = useState(false)
   const [intervalo, setIntervalo] = useState()
   const [text, setText] = useState()
-  const [index, setIndex] = useState(1)
+  const [index, setIndex] = useState(0)
+
+
+
 
   /* Timer */
   let startTime
 
   const startTimer = () => {
-    console.log("Start")
     setSec(0)
     startTime = new Date()
     setIntervalo(setInterval(() => {
@@ -42,7 +44,13 @@ const Compete = () => {
     if (!started) {
       clearInterval(intervalo)
     }
-  })
+  }, [started])
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [])
+
+
 
 
   function getTimerTime() {
@@ -56,11 +64,9 @@ const Compete = () => {
   /* -- Timer -- */
 
   const onRestart = () => {
-    console.log(state.finished)
     setState(initialState)
     setStarted(false)
     setSec(0)
-    console.log(state)
   }
 
   const onUserInputChange = (e) => {
@@ -86,7 +92,11 @@ const Compete = () => {
     if (userInput === text) {
       clearInterval(state.interval)
       console.log("truly finished")
-      dispatch(uploadTime({time: sec}))
+      // subir resultados
+      //dispatch(uploadTime({time: sec}))
+
+
+      // - subir resultados
       console.log("subido")
       setIndex(index + 1)
       onRestart()
@@ -98,25 +108,16 @@ const Compete = () => {
     return userInput.replace(' ', '').split('').filter((s, i) => s === text[i]).length;
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    dispatch(uploadTime({$push: {time: "timee"}}))
-
-
-  }
-
   return (
     <div>
 
 
-<div className="dir">
-        <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome"/></Button>
+      <div className="dir">
+        <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome" /></Button>
         <h1>Compite</h1>
       </div>
 
       <Paper className="paper" elevation={3}>
-        <Button onClick={handleSubmit}>Upload time</Button>
         <h1>{sec}</h1>
         <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} />
         <Preview text={text} userInput={state.userInput} />
@@ -130,9 +131,10 @@ const Compete = () => {
           )}
 
           readOnly={state.finished}
-        />
+        />      
       </Paper>
       <Speed sec={sec} symbols={state.symbols} />
+        
     </div>
   );
 }
