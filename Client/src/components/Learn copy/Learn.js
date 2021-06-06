@@ -142,7 +142,7 @@ const Learn = () => {
         <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} />
         <Keyboard color={color} textColor={setColor} />
         <Preview text={text} input={state.userInput} className="preview" />
-        <TextField className="field" label="Escribe aquí!" variant="outlined"
+        <TextField className="field" label="Let's Start!" variant="outlined"
           value={state.userInput}
           onChange={onUserInputChange}
           placeholder={text ? (

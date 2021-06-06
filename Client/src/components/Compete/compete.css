@@ -1,0 +1,71 @@
+.paper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.preview {
+    max-width: 650px;
+    margin-bottom: 25px;
+    background-color: #a2e9e13d;
+    border-radius: 8px;
+    border: 2px solid #5a858011;
+    padding: 20px;
+    /* Para evitar copia-pega usuario   */
+    pointer-events: none;
+    user-select: none;
+ 
+}
+.field {
+    margin-top: 500px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.url-select {
+    max-width: 150px;
+}
+
+.dir {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+} 
+.title {
+    color: white;
+    filter: drop-shadow(3px 3px 2px #000000c4);
+    margin: 20px;
+}
+.scores {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.compete-paper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.arriba {
+    display: flex;
+}
+.abajo {
+    display: flex;
+}
+img {
+    margin: 0px 20px;
+    border-radius: 10px;
+    border: 2px solid rgba(28, 97, 65, 0.89);
+}
+.rss-paper-c {
+    margin: 5px;
+    margin-right: 20px;
+    padding: 5px 5px;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.219);
+    background-color: #44d1c144;
+}

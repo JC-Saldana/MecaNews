@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation } from "react-router-dom"
 import { Button, Paper, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import decode from "jwt-decode"
-import './styles.css'
+import './options.css'
 import Typing from 'react-typing-animation';
 
 const Navbar = () => {
@@ -36,18 +36,22 @@ const Navbar = () => {
 
     return (
         <div className="main">
-            <Typing className="title">
-                <Typing.Delay ms={1000} />
-                <Typing.Speed ms={200} />
+            <Typing className="options-title">
+                <Typing.Delay ms={300} />
+                <Typing.Speed ms={50} />
                 <h1>...Learn</h1>
-                <Typing.Speed ms={15} />
-                <Typing.Delay ms={500} />
+                <Typing.Speed ms={1} />
+                <Typing.Delay ms={200} />
                 <Typing.Backspace count={8} />
                 <h1>Chill with news</h1>
-                <Typing.Speed ms={8} />
-                <Typing.Delay ms={500} />
+                <Typing.Speed ms={1} />
+                <Typing.Delay ms={200} />
                 <Typing.Backspace count={15} />
                 <h1>Compete</h1>
+                <Typing.Speed ms={1} />
+                <Typing.Delay ms={500} />
+                <Typing.Backspace count={15} />
+                <h1 className="final-title" component={Link} to="/">MecaNews</h1>
             </Typing>
             <main>
                 <Paper className="paper">

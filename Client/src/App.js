@@ -9,10 +9,10 @@ import Auth from "./components/Auth/Auth"
 import Learn from "./components/Learn/Learn"
 import Practice from "./components/Practice/Practice"
 import Compete from "./components/Compete/Compete"
-import Rss from "./components/Compete/Rss"
+import Rss from "./components/Practice/Rss"
 
 const App = () => {
-    const TITLE = 'TypeNews'
+    const TITLE = 'MecaNews'
     return (
         <BrowserRouter>
             <Container maxWidth="lg">

@@ -6,4 +6,5 @@ Se ha usado React, Node.js, Express & MongoDB, además de Redux, Material-ui, mo
 
 Uso: Abrir dos consolas, una en la carpeta "Client" y otra en "Server".
     Luego, ejecutar npm i y npm start en cada una
-    La aplicación quedará subida en el enlace siguiente: 
+
+Aplicación Desplegada: https://mecanews.netlify.app/

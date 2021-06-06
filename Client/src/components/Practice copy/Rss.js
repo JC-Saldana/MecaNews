@@ -293,7 +293,7 @@ function Rss() {
                             </div>
                         )
                 }
-                <h1>De otros usuarios: {otherPosts.length}</h1>
+                <h1>De otros usuarios</h1>
                 {
                     !otherPosts.length ?
                         <div className="vacio">

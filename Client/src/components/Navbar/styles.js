@@ -7,16 +7,15 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: "wrap",
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: '10px 25px',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
     },
   },
-  heading: {
-    color: 'rgba(0,183,255, 1)',
-    textDecoration: 'none',
+  home: {
+    marginLeft: 20,
   },
   toolbar: {
     display: 'flex',
@@ -27,6 +26,10 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexWrap: "wrap",
     justifyContent: 'space-between',
+    alignItems: "center",
+    padding: "10px 20px",
+    maxWidth: 600,
+    minWidth: 355,
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
     },

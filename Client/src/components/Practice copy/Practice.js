@@ -3,7 +3,8 @@ import Preview from './Preview';
 import { Link } from "react-router-dom"
 import Speed from './Speed';
 import { Button, Paper, TextField } from '@material-ui/core';
-import './styles.css'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import './practice.css'
 import Main from './Main';
 
 const Learn = () => {
@@ -15,12 +16,15 @@ const Learn = () => {
     finished: false
   }
 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
   const [state, setState] = useState(initialState)
   const [sec, setSec] = useState(0)
   const [started, setStarted] = useState(false)
   const [intervalo, setIntervalo] = useState()
   const [text, setText] = useState()
+  const [news, setNews] = useState()
   const [index, setIndex] = useState(1)
+  const [link, setLink] = useState()
 
   /* Timer */
   let startTime
@@ -38,7 +42,7 @@ const Learn = () => {
   useEffect(() => {
     if (!started) {
       clearInterval(intervalo)
-    } 
+    }
   })
 
 
@@ -67,7 +71,7 @@ const Learn = () => {
         setStarted(true)
         startTimer()
       }
-      
+
       setState({
         text: state.text,
         userInput: v,
@@ -96,13 +100,21 @@ const Learn = () => {
 
   return (
     <div>
-      
 
-      <Button component={Link} to="/" variant="outlined" color="default" >Volver</Button>
+      <div className="dir">
+        <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome"/></Button>
+        <h1 className="title">Practica</h1>
+        {user ? (
+            <Button component={Link} to="/Rss" variant="outlined">+ Noticias</Button>
+          ) : (
+     
+            <Button component={Link} to="/auth" variant="contained" color="primary">Personalizar noticias</Button>
+          )}
+        
+      </div>
 
       <Paper className="paper" elevation={3}>
-        <h1>{sec}</h1>
-        <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} />
+        <Main setText={setText} onRestart={onRestart} index={index} setIndex={setIndex} setNews={setNews} link={link} setLink={setLink} />
         <Preview text={text} userInput={state.userInput} />
         <TextField className="field" label="Let's Start!" variant="outlined"
           value={state.userInput}
@@ -112,8 +124,8 @@ const Learn = () => {
           ) : (
             "Elige antes un texto!"
           )}
-
           readOnly={state.finished}
+          news={news}
         />
       </Paper>
       <Speed sec={sec} symbols={state.symbols} />

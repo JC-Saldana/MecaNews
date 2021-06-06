@@ -4,13 +4,18 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Preview from './Preview';
 import { Link } from "react-router-dom"
 import Speed from './Speed';
-import { Button, Grid, Paper, setRef, TextField } from '@material-ui/core';
-import './styles.css'
+import { Button, CircularProgress, Paper, TextField, Avatar } from '@material-ui/core';
+import michi from "../../img/michi.jpg"
+import guepardo from "../../img/guepardo.png"
+import sonic from "../../img/sonic.png"
+import './compete.css'
 import Main from './Main';
-import { createPost, getPosts, updatePost } from '../../actions/posts';
+import { createScore, deleteScore, getScores } from '../../actions/scores';
 
 const Compete = () => {
+
   const dispatch = useDispatch()
+
   const initialState = {
     text: "",
     userInput: '',
@@ -18,15 +23,30 @@ const Compete = () => {
     finished: false
   }
 
+  const user = JSON.parse(localStorage.getItem("profile"))
+  const userId = user?.result?.googleId || user?.result?._id
   const [state, setState] = useState(initialState)
   const [sec, setSec] = useState(0)
   const [started, setStarted] = useState(false)
   const [intervalo, setIntervalo] = useState()
   const [text, setText] = useState()
-  const [index, setIndex] = useState(1)
-  const user = JSON.parse(localStorage.getItem("profile"))
-  const userId = user?.result?.googleId || user?.result?._id
-  const [postData, setPostData] = useState({ label: "pj:", value: "pj:", userId: userId })
+  const [index, setIndex] = useState(0)
+
+  const scores = useSelector((state) => state.scores)
+  const myScores = []
+
+  scores.length ?
+    scores.forEach(ele => {
+      if (ele.userId === userId) {
+        myScores.push(ele)
+      }
+    }) : console.log("No posts", scores)
+
+  console.log(scores)
+  console.log(myScores)
+
+
+
 
   /* Timer */
   let startTime
@@ -39,19 +59,17 @@ const Compete = () => {
     }, 1000))
   }
 
+  useEffect(() => {
+    dispatch(getScores())
+  }, [])
 
   useEffect(() => {
     if (!started) {
       clearInterval(intervalo)
+      console.log(false)
     }
-  })
-
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [postData])
-
-
-
+    console.log(true)
+  }, [started])
 
   function getTimerTime() {
     return Math.floor((new Date() - startTime) / 1000)
@@ -59,6 +77,7 @@ const Compete = () => {
 
   const tick = () => {
     setSec(getTimerTime())
+
   }
 
   /* -- Timer -- */
@@ -67,17 +86,16 @@ const Compete = () => {
     setState(initialState)
     setStarted(false)
     setSec(0)
+    dispatch(getScores())    /* revisar si es necesario */
   }
 
   const onUserInputChange = (e) => {
-    console.log(postData)
     if (text) {
       const v = e.target.value;
       if (started === false) {
         setStarted(true)
         startTimer()
       }
-
       setState({
         text: state.text,
         userInput: v,
@@ -93,35 +111,33 @@ const Compete = () => {
     if (userInput === text) {
       clearInterval(state.interval)
       console.log("truly finished")
-      // subir resultados
-      //dispatch(uploadTime({time: sec}))
-
-
-      // - subir resultados
-      console.log("subido")
+      uploadTime()
       setIndex(index + 1)
       onRestart()
     }
+    dispatch(getScores()) /* revisar si es necesario */
+  }
+
+  const uploadTime = () => {
+    const score = ((text.length / 5) / sec) * 60
+    console.log(text.length)
+    console.log(text.length / 5)
+    console.log(sec)
+    console.log("Score: " + score)
+    if (score > 50) {
+      dispatch(createScore({ score: "Sonic", userId: user.result.name }))
+    } else if (score < 25) {
+      dispatch(createScore({ score: "Michi" }))
+    } else {
+      dispatch(createScore({ score: "Guepardo" }))
+    }
+
+    console.log("Subido: " + score)
   }
 
   const countCorrectSymbols = (userInput) => {
     const text = state.text.replace(' ', '');
     return userInput.replace(' ', '').split('').filter((s, i) => s === text[i]).length;
-  }
-
-
-  const handleSubmit = (e) => {
-    console.log(postData)
-    e.preventDefault()
-    dispatch(createPost({ ...postData }))
-    /*if (currentId) {
-      console.log("update")
-      dispatch(updatePost(currentId, { ...postData }))
-    } else {
-      console.log("create")
-      dispatch(createPost({ ...postData, userId: "userId" }))
-    }*/
-
   }
 
   return (
@@ -130,7 +146,7 @@ const Compete = () => {
 
       <div className="dir">
         <Button component={Link} to="/" variant="outlined"><ArrowBackIosIcon className="backHome" /></Button>
-        <h1>Compite</h1>
+        <h1 className="title">Compite</h1>
       </div>
 
       <Paper className="paper" elevation={3}>
@@ -148,19 +164,55 @@ const Compete = () => {
 
           readOnly={state.finished}
         />
-        {/*posts.map((post) => (
-          <Grid key={post._id} item xs={12} sm={6} md={6}>
-            {(userId === post?.userId || userId === post?.userId) && (
-              <Grid key={post._id} item xs={12} sm={6} md={6}>
-                <p>{post.value} </p>
-              </Grid>
-            )}
-          </Grid>
-            ))*/}
-        
       </Paper>
       <Speed sec={sec} symbols={state.symbols} />
-        
+      <h1>Usuarios</h1>
+      {scores.length}
+      {
+        !scores.length ?
+          <div className="vacio">
+            <CircularProgress />
+            <p>Vacío...</p>
+          </div>
+          :
+          (
+            <div className="rss-paper-container">
+              {scores.map(item => {
+                if (item.score === "Sonic") {
+                  return (
+                    <Paper className="rss-paper">
+                      <div className="left">
+                        <Button onClick={() => dispatch(deleteScore(item._id))}>X</Button>
+                        <p className="rss-paper-p">{item.userId}</p>
+                        <img src={sonic} style={{ width: 40 }} />
+                      </div>
+                      <TextField value={item.score} className="right" />
+                    </Paper>)
+                } else if (item.score === "Guepardo") {
+                  return (
+                    <Paper className="rss-paper">
+                      <div className="left">
+                        <Button onClick={() => dispatch(deleteScore(item._id))}>X</Button>
+                        <p className="rss-paper-p">{item.userId}</p>
+                        <Avatar src={guepardo} />
+                      </div>
+                      <TextField value={item.score} className="right" />
+                    </Paper>)
+                } else {
+                  return (
+                    <Paper className="rss-paper">
+                      <div className="left">
+                        <Button onClick={() => dispatch(deleteScore(item._id))}>X</Button>
+                        <p className="rss-paper-p">{item.userId}</p>
+                        <img src={michi} style={{ width: 40 }} />
+                      </div>
+                      <TextField value={item.score} className="right" />
+                    </Paper>)
+                }
+              })}
+            </div>
+          )
+      }
     </div>
   );
 }

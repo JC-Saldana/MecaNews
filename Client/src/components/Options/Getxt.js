@@ -4,6 +4,8 @@ function Getxt() {
 
     let Parser = require('rss-parser');
     let parser = new Parser();
+    const CORS = "https://mecanews-cors.herokuapp.com/"
+
     const [arrTitle, setArrTitle] = useState("")
     const [arrOrigen, setArrOrigen] = useState("")
 
@@ -11,12 +13,12 @@ function Getxt() {
 
     const getText = (u) => {
         (async () => {
+            u = CORS + u
             let feed = await parser.parseURL(u);
             let num = 0
             feed.items.forEach(item => {
-                // console.log(item.title + ':' + item.link)
+                console.log(num + " - " + item.title)
                 num++
-                //console.log("........." + num + "........." + item.title)
                 arrayTitle.push(item.title)
                 setArrTitle(arrayTitle)
             });
@@ -25,7 +27,11 @@ function Getxt() {
 
     const data = [
         {
-            label: "Xataca",
+            label: "El mundo - última hora",
+            value: "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml"
+        },
+        {
+            label: "Xataka",
             value: "http://feeds.weblogssl.com/xataka2"
         },
         {
@@ -44,7 +50,7 @@ function Getxt() {
     return (
 
         <div className="footer-news">
-            <h2>Latest News</h2><br/>
+            <h2>- Ultima hora -</h2><br/>
             <span>Origen: {arrOrigen} </span>
             <span className="span-footer">{arrTitle[1]} </span>
         </div>

@@ -1,24 +1,26 @@
 
 import { useEffect, useState } from 'react'
 import { Button } from '@material-ui/core';
+import './compete.css'
 
-function Compete({ setText, index, setIndex }) {
+function Compete({ setText, index }) {
 
     let Parser = require('rss-parser');
     let parser = new Parser();
+    const CORS = "https://mecanews-cors.herokuapp.com/"
 
     const [arrTitle, setArrTitle] = useState("")
     const [arrOrigen, setArrOrigen] = useState("")
 
-    let arrayTitle = [null]
-
     const getText = (u) => {
         (async () => {
+            u = CORS + u
             let feed = await parser.parseURL(u);
+            let arrayTitle = [null]
             feed.items.forEach(item => {
                 arrayTitle.push(item.title)
-                setArrTitle(arrayTitle)
-            });
+
+            }); setArrTitle(arrayTitle)
         })();
     }
 
@@ -46,22 +48,18 @@ function Compete({ setText, index, setIndex }) {
     ]
 
     const fateIndex = () => {
-        const randomIndex = Math.floor(Math.random() * arrTitle.length)
-        setIndex(randomIndex)
-        console.log("Random index: ", randomIndex, arrTitle.length, arrTitle)
-    }
-
-    useEffect(() => {
-        
         const randomOrigen = Math.floor(Math.random() * data.length)
         getText(data[randomOrigen].value)
         setArrOrigen(data[randomOrigen].label)
+    }
+    useEffect(() => {
+        fateIndex()
+    }, [index])
 
-        console.log("Random origen: ", randomOrigen, data)
-            
-    }, [])
-
-    setText(arrTitle[index])
+    useEffect(() => {
+        const randomIndex = Math.floor(Math.random() * arrTitle.length)
+        setText(arrTitle[randomIndex])
+    }, [arrTitle])
 
     return (
 

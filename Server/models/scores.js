@@ -1,14 +1,16 @@
 import mongoose from "mongoose"
 
 // Schema: mongoose allows us to use uniformity between documents, so we create our norms
-const postSchema = mongoose.Schema({
-    label: String,
-    value: String,
+const scoreSchema = mongoose.Schema({
     userId: String,
     userName: String,
+    category: String,
+    scores: [],
+    media: String,
+    mediaCinco: String,
 })
 
 // Transform schema into model
-const PostMessage = mongoose.model("PostMessage", postSchema)
+const Scores = mongoose.model("Scores",scoreSchema)
 
-export default PostMessage
+export default Scores

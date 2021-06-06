@@ -1,14 +1,17 @@
 .main {
-    max-width: 800px;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 75vh;
 }
-.title {
+.options-title {
     flex-grow: 1;
-    margin: 0px;
+    margin-bottom: 80px;
+    height: 40px;
+    color: white;
+    filter: drop-shadow(3px 3px 2px #000000d3);
 }
 main {
     flex-grow: 5;
@@ -33,4 +36,8 @@ footer {
 
 .span-footer {
     margin: 10px 0px;
+}
+
+.final-title {
+    font-size: 65px;
 }

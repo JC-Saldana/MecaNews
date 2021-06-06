@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Preview = ({ text, userInput }) => {
+const Preview = ({ text, input }) => {
+  
   //console.log("text: " + text)
+  //console.log("input: " + input)
   if (text) {
     const newText = text.split('')
 
@@ -10,13 +12,13 @@ const Preview = ({ text, userInput }) => {
         {
           newText.map((s, i) => {
             let color;
-            if (i < userInput.length) {
-              color = s === userInput[i] ? '#dfffa0' : '#fcbea4';
+            if (i < input.length) {
+              color = s === input[i] ? '#dfffa0' : '#fcbea4';
             }
             return <span key={i} style={{ backgroundColor: color }}>{s}</span>
           })
         }
-        </div>
+      </div>
     )
   } else {
     return null
