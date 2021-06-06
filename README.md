@@ -1,4 +1,4 @@
-# TYPE-NEWS
+# MECA-NEWS
 
 MERN APP Por Carlos Saldaña como Trabajo Fin Grado en Instituto Tecnológico Telefónica/Edix
 
